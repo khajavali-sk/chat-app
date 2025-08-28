@@ -9,7 +9,7 @@ const UserList = ({ users, onUserClick, isConnected }) => {
           <Users className="w-5 h-5 text-emerald-400" />
           <span>Online Users</span>
         </h2>
-        <div className="flex items-center space-x-2 bg-slate-700/50 px-2 sm:px-3 py-1 rounded-full">
+        <div className="flex items-center space-x-2 bg-slate-700/50 px-2 px-3 py-1 rounded-full">
           <div
             className={`w-3 h-3 rounded-full ${
               isConnected ? "bg-emerald-500 animate-pulse" : "bg-rose-500"
@@ -22,7 +22,7 @@ const UserList = ({ users, onUserClick, isConnected }) => {
       </div>
 
       {users.length === 0 ? (
-        <div className="text-center py-8 sm:py-10 bg-slate-700/30 rounded-xl flex-1 flex items-center justify-center border border-slate-600/20">
+        <div className="text-center py-8 sm:py-10 bg-slate-700/30 rounded-xl flex justify-center border border-slate-600/20">
           <div>
             <div className="bg-slate-700/70 p-4 rounded-full inline-block mb-4 shadow-inner border border-slate-600/30">
               <Wifi className="w-10 sm:w-12 h-10 sm:h-12 text-slate-400 mx-auto" />
@@ -38,7 +38,7 @@ const UserList = ({ users, onUserClick, isConnected }) => {
           {users.map((user) => (
             <div
               key={user.id}
-              className="flex items-center justify-between p-3 sm:p-3.5 bg-slate-700/50 rounded-xl hover:bg-slate-700/80 transition-all duration-200 cursor-pointer border border-slate-600/30 hover:border-emerald-500/30 shadow-sm hover:shadow w-full"
+              className="flex-row items-center justify-between p-3 sm:p-3.5 bg-slate-700/50 rounded-xl hover:bg-slate-700/80 transition-all duration-200 cursor-pointer border border-slate-600/30 hover:border-emerald-500/30 shadow-sm hover:shadow w-full"
               onClick={() => onUserClick(user)}
             >
               <div className="flex items-center space-x-3 min-w-0 flex-1">
@@ -58,7 +58,7 @@ const UserList = ({ users, onUserClick, isConnected }) => {
                 </div>
               </div>
               <button
-                className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 shadow hover:shadow-md text-xs sm:text-sm flex items-center space-x-1 sm:space-x-2 flex-shrink-0"
+                className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-3 sm:px-4 py-2 mt-1 rounded-lg transition-all duration-200 shadow hover:shadow-md text-xs sm:text-sm flex items-center space-x-1 sm:space-x-2 flex-shrink-0"
                 onClick={(e) => {
                   e.stopPropagation();
                   onUserClick(user);
