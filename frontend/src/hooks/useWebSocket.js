@@ -30,7 +30,13 @@ const useWebSocket = (userId, displayName) => {
       const wsUrl = `${protocol}//${
         window.location.host
       }/ws/${userId}?display_name=${encodeURIComponent(displayName)}`;
+
+      // Enhanced logging for troubleshooting connection issues
       console.log(`Connecting to WebSocket at: ${wsUrl}`);
+      console.log(
+        `Connection details: Protocol=${protocol}, Host=${window.location.host}`
+      );
+
       wsRef.current = new WebSocket(wsUrl);
 
       wsRef.current.onopen = () => {
@@ -300,19 +306,16 @@ const useWebSocket = (userId, displayName) => {
 
     try {
       // Use relative URL for decryption API, working on any device/network
-      const response = await fetch(
-        "/api/decrypt-message",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            session_id: session.sessionId,
-            encrypted_message: encryptedMessage,
-          }),
-        }
-      );
+      const response = await fetch("/api/decrypt-message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          session_id: session.sessionId,
+          encrypted_message: encryptedMessage,
+        }),
+      });
 
       if (response.ok) {
         const data = await response.json();

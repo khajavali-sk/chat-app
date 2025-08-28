@@ -212,7 +212,7 @@ class EncryptionManager:
             print(f"No cipher found for session ID: {session_id}")
             print(f"Available sessions: {list(self.session_ciphers.keys())}")
             return None
-            
+
         try:
             return cipher.decrypt_message(encrypted_message)
         except Exception as e:

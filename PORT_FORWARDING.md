@@ -59,7 +59,33 @@ Ngrok creates a secure tunnel to expose your local server to the internet:
 
 **Note**: Free ngrok account URLs expire after 2 hours and change each time you restart ngrok.
 
-## Option 3: Cloud Deployment
+## Option 3: Development Tunnels (Best for Development)
+
+Development tunnels are great for sharing your work during development without complex setup:
+
+1. **VS Code Dev Tunnels**:
+
+   - In VS Code, open the "Ports" tab in the bottom panel
+   - Click "Forward a Port" button and enter port 5173
+   - Right-click on the port and select "Port Visibility" → "Public"
+   - Share the URL shown in the "Forwarded Address" column
+
+2. **GitHub Codespaces Ports**:
+
+   - If using Codespaces, open the Ports tab
+   - Click "Add Port" and enter 5173
+   - Right-click on the port and set visibility to "Public"
+   - Share the generated URL
+
+3. **VS Code Web Tunnels**:
+   - In VS Code, open Command Palette (Ctrl+Shift+P)
+   - Type and select "Dev Tunnels: Create Tunnel"
+   - Configure the tunnel to forward port 5173
+   - Share the provided URL
+
+For convenience, you can run the `dev_tunnel.bat` script which provides instructions and starts the necessary servers.
+
+## Option 4: Cloud Deployment
 
 For a permanent solution, consider deploying your application to a cloud provider:
 

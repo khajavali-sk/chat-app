@@ -16,10 +16,18 @@ export default defineConfig({
         target: "ws://localhost:8000",
         ws: true,
         changeOrigin: true,
+        // Necessary for secure dev tunnels
+        secure: false,
+        // Handle redirects properly
+        rewrite: (path) => path.replace(/^\/ws/, "/ws"),
       },
       "/api": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        // Necessary for secure dev tunnels
+        secure: false,
+        // Handle redirects properly
+        rewrite: (path) => path.replace(/^\/api/, "/api"),
       },
     },
   },

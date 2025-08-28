@@ -562,24 +562,27 @@ async def decrypt_message_endpoint(request: DecryptRequest):
     try:
         # Log detailed information for debugging
         print(f"Attempting to decrypt message for session: {request.session_id}")
-        print(f"Available session ciphers: {list(encryption_manager.session_ciphers.keys())}")
-        
+        print(
+            f"Available session ciphers: {list(encryption_manager.session_ciphers.keys())}"
+        )
+
         decrypted = encryption_manager.decrypt_message(
             request.session_id, request.encrypted_message
         )
         if decrypted:
             return {"decrypted_message": decrypted}
         else:
-            print(f"Decryption failed for session {request.session_id}: No result returned")
+            print(
+                f"Decryption failed for session {request.session_id}: No result returned"
+            )
             return JSONResponse(
                 status_code=400,
-                content={"error": f"Failed to decrypt message. Session may not exist."}
+                content={"error": f"Failed to decrypt message. Session may not exist."},
             )
     except Exception as e:
         print(f"Decryption error for session {request.session_id}: {str(e)}")
         return JSONResponse(
-            status_code=500, 
-            content={"error": f"Decryption failed: {str(e)}"}
+            status_code=500, content={"error": f"Decryption failed: {str(e)}"}
         )
 
 
@@ -589,8 +592,10 @@ async def decrypt_image_endpoint(request: DecryptRequest):
     try:
         # Log detailed information for debugging
         print(f"Attempting to decrypt image for session: {request.session_id}")
-        print(f"Available session ciphers: {list(encryption_manager.session_ciphers.keys())}")
-        
+        print(
+            f"Available session ciphers: {list(encryption_manager.session_ciphers.keys())}"
+        )
+
         decrypted = encryption_manager.decrypt_message(
             request.session_id, request.encrypted_message
         )
@@ -608,19 +613,22 @@ async def decrypt_image_endpoint(request: DecryptRequest):
                 print(f"JSON parsing error for decrypted image: {str(je)}")
                 return JSONResponse(
                     status_code=400,
-                    content={"error": f"Failed to parse decrypted image data: {str(je)}"}
+                    content={
+                        "error": f"Failed to parse decrypted image data: {str(je)}"
+                    },
                 )
         else:
-            print(f"Image decryption failed for session {request.session_id}: No result returned")
+            print(
+                f"Image decryption failed for session {request.session_id}: No result returned"
+            )
             return JSONResponse(
                 status_code=400,
-                content={"error": f"Failed to decrypt image. Session may not exist."}
+                content={"error": f"Failed to decrypt image. Session may not exist."},
             )
     except Exception as e:
         print(f"Image decryption error for session {request.session_id}: {str(e)}")
         return JSONResponse(
-            status_code=500,
-            content={"error": f"Image decryption failed: {str(e)}"}
+            status_code=500, content={"error": f"Image decryption failed: {str(e)}"}
         )
 
 
