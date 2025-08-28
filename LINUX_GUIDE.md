@@ -14,6 +14,7 @@ Make sure you have the following installed:
 ## Quick Setup
 
 1. **Make all scripts executable**:
+
    ```bash
    chmod +x *.sh
    ```
@@ -27,11 +28,13 @@ Make sure you have the following installed:
 ## Starting the Application
 
 To start the application with default settings:
+
 ```bash
 ./start.sh
 ```
 
 This will:
+
 - Start the backend server on port 8000
 - Start the frontend server on port 5173
 - Make the application accessible at http://localhost:5173
@@ -41,6 +44,7 @@ This will:
 ### Option 1: Access within Local Network
 
 To make the app accessible to other devices on your local network:
+
 ```bash
 ./start_external.sh
 ```
@@ -50,6 +54,7 @@ This will display your local IP address that other devices on the same network c
 ### Option 2: Access via Development Tunnels
 
 For development and testing with VS Code or GitHub Codespaces tunnels:
+
 ```bash
 ./dev_tunnel.sh
 ```
@@ -59,11 +64,13 @@ Follow the on-screen instructions to set up your preferred tunneling option.
 ### Option 3: Access via ngrok
 
 For quick public access via ngrok tunneling:
+
 ```bash
 ./tunnel.sh
 ```
 
 This requires ngrok to be installed. If not installed, you can install it on Ubuntu with:
+
 ```bash
 sudo snap install ngrok
 ```
