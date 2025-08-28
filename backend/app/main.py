@@ -36,7 +36,9 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://localhost:5173",
-    ],  # React dev servers
+        "http://localhost:*",  # Allow any port on localhost
+        "*",  # Allow all origins for development/testing
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -558,39 +560,68 @@ async def websocket_endpoint(
 async def decrypt_message_endpoint(request: DecryptRequest):
     """Decrypt a message for display"""
     try:
+        # Log detailed information for debugging
+        print(f"Attempting to decrypt message for session: {request.session_id}")
+        print(f"Available session ciphers: {list(encryption_manager.session_ciphers.keys())}")
+        
         decrypted = encryption_manager.decrypt_message(
             request.session_id, request.encrypted_message
         )
         if decrypted:
             return {"decrypted_message": decrypted}
         else:
-            return {"error": "Failed to decrypt message"}, 400
+            print(f"Decryption failed for session {request.session_id}: No result returned")
+            return JSONResponse(
+                status_code=400,
+                content={"error": f"Failed to decrypt message. Session may not exist."}
+            )
     except Exception as e:
-        print(f"Decryption error: {e}")
-        return {"error": "Decryption failed"}, 500
+        print(f"Decryption error for session {request.session_id}: {str(e)}")
+        return JSONResponse(
+            status_code=500, 
+            content={"error": f"Decryption failed: {str(e)}"}
+        )
 
 
 @app.post("/api/decrypt-image")
 async def decrypt_image_endpoint(request: DecryptRequest):
     """Decrypt an image for display"""
     try:
+        # Log detailed information for debugging
+        print(f"Attempting to decrypt image for session: {request.session_id}")
+        print(f"Available session ciphers: {list(encryption_manager.session_ciphers.keys())}")
+        
         decrypted = encryption_manager.decrypt_message(
             request.session_id, request.encrypted_message
         )
         if decrypted:
             # Parse the decrypted JSON image payload
-            image_payload = json.loads(decrypted)
-            return {
-                "image_data": image_payload["data"],
-                "filename": image_payload["filename"],
-                "file_type": image_payload["type"],
-                "size": image_payload["size"],
-            }
+            try:
+                image_payload = json.loads(decrypted)
+                return {
+                    "image_data": image_payload["data"],
+                    "filename": image_payload["filename"],
+                    "file_type": image_payload["type"],
+                    "size": image_payload["size"],
+                }
+            except json.JSONDecodeError as je:
+                print(f"JSON parsing error for decrypted image: {str(je)}")
+                return JSONResponse(
+                    status_code=400,
+                    content={"error": f"Failed to parse decrypted image data: {str(je)}"}
+                )
         else:
-            return {"error": "Failed to decrypt image"}, 400
+            print(f"Image decryption failed for session {request.session_id}: No result returned")
+            return JSONResponse(
+                status_code=400,
+                content={"error": f"Failed to decrypt image. Session may not exist."}
+            )
     except Exception as e:
-        print(f"Image decryption error: {e}")
-        return {"error": "Image decryption failed"}, 500
+        print(f"Image decryption error for session {request.session_id}: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Image decryption failed: {str(e)}"}
+        )
 
 
 @app.get("/")
@@ -611,20 +642,7 @@ async def health_check():
     }
 
 
-@app.post("/api/decrypt-message")
-async def decrypt_message_endpoint(request: DecryptRequest):
-    """Decrypt a message for display (API endpoint)"""
-    try:
-        decrypted = encryption_manager.decrypt_message(
-            request.session_id, request.encrypted_message
-        )
-        if decrypted is None:
-            raise HTTPException(status_code=400, detail="Decryption failed")
-
-        return {"decrypted_message": decrypted}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# Removed duplicate endpoint definition
 
 
 @app.post("/api/upload-file")

@@ -25,9 +25,12 @@ const useWebSocket = (userId, displayName) => {
     }
 
     try {
-      const wsUrl = `ws://localhost:8000/ws/${userId}?display_name=${encodeURIComponent(
-        displayName
-      )}`;
+      // Use relative path and automatic protocol detection for WebSocket
+      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+      const wsUrl = `${protocol}//${
+        window.location.host
+      }/ws/${userId}?display_name=${encodeURIComponent(displayName)}`;
+      console.log(`Connecting to WebSocket at: ${wsUrl}`);
       wsRef.current = new WebSocket(wsUrl);
 
       wsRef.current.onopen = () => {
@@ -296,8 +299,9 @@ const useWebSocket = (userId, displayName) => {
     if (!session) return "[Encrypted]";
 
     try {
+      // Use relative URL for decryption API, working on any device/network
       const response = await fetch(
-        "http://localhost:8000/api/decrypt-message",
+        "/api/decrypt-message",
         {
           method: "POST",
           headers: {
@@ -328,7 +332,8 @@ const useWebSocket = (userId, displayName) => {
     if (!session) return { error: "No session" };
 
     try {
-      const response = await fetch("http://localhost:8000/api/decrypt-image", {
+      // Use relative URL for image decryption API, working on any device/network
+      const response = await fetch("/api/decrypt-image", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

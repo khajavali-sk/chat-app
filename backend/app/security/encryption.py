@@ -208,12 +208,19 @@ class EncryptionManager:
             Decrypted message or None if session not found or decryption failed
         """
         cipher = self.get_session_cipher(session_id)
-        if cipher:
-            try:
-                return cipher.decrypt_message(encrypted_message)
-            except Exception as e:
-                print(f"Message decryption failed: {e}")
-        return None
+        if not cipher:
+            print(f"No cipher found for session ID: {session_id}")
+            print(f"Available sessions: {list(self.session_ciphers.keys())}")
+            return None
+            
+        try:
+            return cipher.decrypt_message(encrypted_message)
+        except Exception as e:
+            print(f"Message decryption failed for session {session_id}: {e}")
+            print(f"Encrypted message length: {len(encrypted_message)}")
+            # First few characters for debugging (don't log the whole message)
+            print(f"Message starts with: {encrypted_message[:20]}...")
+            return None
 
     def get_session_fingerprint(self, session_id: str) -> Optional[str]:
         """
