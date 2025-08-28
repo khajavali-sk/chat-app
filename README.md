@@ -44,22 +44,47 @@ This application simulates quantum cryptography concepts to create a secure mult
 - Node.js 16+
 - UV package manager (install with `pip install uv`)
 
-### Backend Setup
+### Windows Setup
+
+The easiest way to set up the application on Windows is using the provided batch scripts:
+
+```cmd
+# Run the setup script (one time only)
+setup.bat
+
+# Start the application
+start.bat
+```
+
+### Linux/Ubuntu Setup
+
+For Linux/Ubuntu users, use the shell scripts:
+
+```bash
+# Make scripts executable
+chmod +x *.sh
+
+# Run the setup script (one time only)
+./setup.sh
+
+# Start the application
+./start.sh
+```
+
+### Backend Setup (Manual)
 
 ```bash
 # Navigate to backend directory
 cd backend
 
-# Install dependencies using UV
-uv sync
+# Install dependencies
+uv pip install -e .
 
-# Run the server
-uv run python main.py
+# Start the server
+python -m app.main
 ```
 
-The backend will start on `http://localhost:8000`
-
-### Frontend Setup
+### Frontend Setup (Manual)
 
 ```bash
 # Navigate to frontend directory
@@ -69,10 +94,40 @@ cd frontend
 npm install
 
 # Start development server
-npm start
+npm run dev
 ```
 
-The frontend will start on `http://localhost:3000`
+The application will start with backend on `http://localhost:8000` and frontend on `http://localhost:5173`
+
+### External Access Options
+
+#### Windows
+
+```cmd
+# For general external access options
+start_external.bat
+
+# For development tunnels (VS Code, GitHub Codespaces, etc.)
+dev_tunnel.bat
+
+# For ngrok tunneling
+tunnel.bat
+```
+
+#### Linux/Ubuntu
+
+```bash
+# For general external access options
+./start_external.sh
+
+# For development tunnels (VS Code, GitHub Codespaces, etc.)
+./dev_tunnel.sh
+
+# For ngrok tunneling
+./tunnel.sh
+```
+
+See `PORT_FORWARDING.md` for detailed instructions on various external access methods.
 
 ## 📱 Usage
 
